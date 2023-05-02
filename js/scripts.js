@@ -46,7 +46,17 @@ window.addEventListener('DOMContentLoaded', event => {
     // get the values of the form fields
     const email = emailField.value;
     const message = messageField.value;
-
+    
+    // check if the values are empty strings
+    if (email == '' || message == '') { 
+        Swal.fire({
+            title: 'Error!',
+            text: 'Cannot send empty message. Please fill in all fields.',
+            icon: 'error'
+        })
+        return
+    }
+        
     // send the form data using Fetch API
     fetch(form.action, {
         method: 'POST',
