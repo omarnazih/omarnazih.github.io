@@ -31,4 +31,62 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
+    // Handle form submission
+    // select the form element
+    const form = document.querySelector('form');
+
+    // add event listener for form submission
+    form.addEventListener('submit', (event) => {
+    event.preventDefault(); // prevent the default form submission
+
+    // select the form fields
+    const emailField = form.querySelector('#email');
+    const messageField = form.querySelector('#message');
+
+    // get the values of the form fields
+    const email = emailField.value;
+    const message = messageField.value;
+
+    // send the form data using Fetch API
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        email: email,
+        message: message
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+        // handle successful form submission
+        Swal.fire({
+            title: 'Successfully sent!',
+            text: 'Your message has been sent!',
+            icon: 'success'
+         })
+        emailField.value = '';
+        messageField.value = '';
+        } else {
+        // handle failed form submission
+        Swal.fire({
+            title: 'Error!',
+            text: 'There was an error submitting your message. Please try again later.',
+            icon: 'error'
+        })
+            
+        }
+    })
+    .catch(error => {
+        // handle network errors
+        Swal.fire({
+            title: 'Error!',
+            text: 'There was a network error submitting your message. Please try again later.',
+            icon: 'error',
+        })
+    });
+    });
+
+
 });
